@@ -1,0 +1,165 @@
+package code;
+ // another version of this program in called Test.java. I tried to replace repeating letters with # but that was not workng either and the letters are still repeating
+import java.io.File;
+import java.util.Scanner;
+
+public class Text_Twister {
+	
+	public static char [] populate (char [] letters, int a, int b, int c)
+	{
+		char [] word = new char[6];
+		char [] copy = new char [6];
+		Scanner input = new Scanner(System.in);
+		for (int i = 0; i < letters.length; i++)
+			copy [i] = letters[i];	
+		word[0] = copy[a];
+//		copy[a] = '#'; //avoid repeating letter
+		word[1] = copy[b];
+//		copy[b] = '#';
+		word[2] = copy[c];
+//		copy[c] = '#';
+//		copy[a] = letters[a];//reset
+//		copy[b] = letters[b];
+//		copy[c] = letters[c];
+//		System.out.println(word);
+		return word;
+	}
+	public static char [] populate (char [] letters, int a, int b, int c, int d)
+	{
+		char [] word = new char[6];
+		char [] copy = new char [6];
+		for (int i = 0; i < letters.length; i++)
+			copy [i] = letters[i];	
+		word = populate (letters,a, b, c);
+		word[3] = copy[d];
+//		copy[d] = '#';
+//		copy[d] = letters[d];
+		return word;
+	}
+	public static char [] populate (char [] letters, int a, int b, int c, int d, int e)
+	{
+//		System.out.println("5 letters method");
+		char [] word = new char[6];
+		char [] copy = new char [6];
+		for (int i = 0; i < letters.length; i++)
+			copy [i] = letters[i];	
+		word = populate (letters,a, b, c,d);
+		word[4] = copy[e];
+//		copy[e] = '#';
+//		copy[e] = letters[e];
+		return word;
+	}
+	public static char [] populate (char [] letters, int a, int b, int c, int d, int e, int f)
+	{
+//		System.out.println("5 letters method");
+		char [] word = new char[6];
+		char [] copy = new char [6];
+		for (int i = 0; i < letters.length; i++)
+			copy [i] = letters[i];	
+		word = populate (letters,a, b, c,d,e);
+		word[5] = copy[f];
+//		copy[f] = '#';
+//		copy[f] = letters[f];
+		return word;
+	}
+	
+	public static void main(String[] args) throws Exception//MAIN
+	{
+		File infile = new File ("UNIQUE WORD LIST.txt");
+		char [] letters = new char [6];
+		char [] copy = new char [6];
+		char [][] patterns = new char [60000][6]; //all possibilities
+		char [][] finalPatterns = new char [50000][6];
+		Scanner input = new Scanner(System.in);
+		int element =0;
+		int counter =0;
+		int counter2 = 0;
+		
+		for (int i = 0; i < 6; i++)
+		{
+			System.out.println("Insert letter: ");
+			letters[i] = input.next().charAt(0);
+			copy [i] = letters[i];
+		}
+		
+		while(element < 120)
+		{
+			for(int a = 0; a < 6; a++)
+			{
+				for(int b = 0; b < 6; b++)
+				{
+					for(int c = 0; c < 6; c++)
+					{
+						patterns[element] = populate (letters,a,b,c);
+//						System.out.println(patterns[element]);
+						element++;
+						for(int d = 0; d < 6; d++)
+						{
+							if(element != 0) //fourth letter
+							{
+								patterns[element] = populate(letters,a,b,c,d);
+//								System.out.println("Tester 4 letters");
+//								System.out.println(patterns[element]);
+								element++;
+								for(int e = 0; e < 6; e++) // the fifth letter
+								{
+									if(element != 0)
+									{
+										patterns[element] = populate(letters,a,b,c,d,e);
+//										System.out.println(patterns[element]);
+										element++;
+										for(int f = 0; f < 6; f++) // the sixth letter
+										{
+											if(element != 0)
+											{
+												patterns[element] = populate(letters,a,b,c,d,e,f);
+//												System.out.println(patterns[element]);
+												element++;
+											}
+										}
+									}
+								}									
+							}	
+						}
+//						System.out.println("c = "+ c);
+//						System.out.println("");
+					}					
+				}		
+			}			
+		}
+		element = 0;
+		/*while (element < patterns.length )
+		{
+			for ( int x = 0; x < 6; x++)
+			{
+				for ( int y = 0; y < 6; y++)
+				{
+					if (patterns[element][x] == letters[y]) //repeating letters
+						counter++;
+					if (counter == 2);
+						patterns[element][x] = '#';
+					if ( patterns[element] == (patterns[element+1]))
+					{
+//						System.out.println(patterns[element] + " / "+ patterns[element+1] );
+						patterns[element] = null;
+					}
+				}
+			}
+			if(counter != 2 && patterns[element] != null) //add to new clean array
+			{
+				finalPatterns[counter2] = patterns[element];
+				counter2++;
+			}
+			element++;
+		}
+		counter = 0;*/
+		for(int a = 0; a < patterns.length; a++)
+		{
+			System.out.println(patterns[a]);
+		}
+
+		input.close();
+		 
+	}
+
+}
